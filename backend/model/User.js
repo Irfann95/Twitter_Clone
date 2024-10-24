@@ -23,7 +23,6 @@ const UserSchema = mongoose.Schema({
                 const birthDatePlus18 = new Date(v);
                 birthDatePlus18.setFullYear(birthDatePlus18.getFullYear() + 18);
                 birthDatePlus18.setHours(0, 0, 0, 0);
-
                 const today = new Date();
                 today.setHours(0, 0, 0, 0);
 
@@ -33,7 +32,7 @@ const UserSchema = mongoose.Schema({
         },
         required: true
     },
-    surname: {type: String, required: true, unique: true},
+    surname: { type: String, index: { unique: true, sparse: true } } 
 });
 
 module.exports = mongoose.model('User', UserSchema);

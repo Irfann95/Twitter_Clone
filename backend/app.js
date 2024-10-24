@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const UserRoutes = require('./routes/User.js');
+const TweetRoutes = require('./routes/Tweet.js');
 
 mongoose.connect('mongodb+srv://irfannAS:LhJ3EWUAH543l2FR@cluster0.uwrtr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
     { useNewUrlParser: true,
@@ -10,6 +11,8 @@ mongoose.connect('mongodb+srv://irfannAS:LhJ3EWUAH543l2FR@cluster0.uwrtr.mongodb
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
+
+app.use(express.json()); 
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,6 +23,6 @@ app.use((req, res, next) => {
 
 app.use('/api/users', UserRoutes);
 
-app.use(express.json()); 
+app.use('/api/tweets', TweetRoutes);
 
 module.exports = app;
