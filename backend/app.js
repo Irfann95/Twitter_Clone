@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const UserRoutes = require('./routes/User.js');
 const TweetRoutes = require('./routes/Tweet.js');
@@ -12,16 +13,18 @@ mongoose.connect('mongodb+srv://irfannAS:LhJ3EWUAH543l2FR@cluster0.uwrtr.mongodb
 
 const app = express();
 
+const corsOptions = {
+  origin: 'http://localhost:3001', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content', 'Accept', 'Content-Type', 'Authorization'],
+  credentials: true, 
+};
+
+app.use(cors(corsOptions)); 
+
 app.use(express.json()); 
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
-  });
-
-app.use('/api/users', UserRoutes);
+app.use('/api/auth', UserRoutes);
 
 app.use('/api/tweets', TweetRoutes);
 
